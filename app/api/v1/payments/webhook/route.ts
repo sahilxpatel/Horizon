@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { stripeClient } from "@/lib/stripe";
@@ -134,3 +135,4 @@ export async function POST(req: NextRequest) {
     return new Response(`Webhook handler failed: ${(error as Error).message}`, { status: 500 });
   }
 }
+

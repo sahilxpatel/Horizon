@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { json } from "@/lib/api";
@@ -124,5 +125,6 @@ export async function GET(req: NextRequest) {
     return json({ success: false, message: "Failed to fetch tours" }, 500);
   }
 }
+
 
 

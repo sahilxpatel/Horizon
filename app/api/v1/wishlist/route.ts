@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { badRequest, json, requireAuth } from "@/lib/api";
@@ -80,3 +81,4 @@ export async function POST(req: NextRequest) {
     return json({ success: false, message: "Failed to add to wishlist" }, 500);
   }
 }
+

@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { badRequest, json } from "@/lib/api";
@@ -39,3 +40,4 @@ export async function GET(req: NextRequest) {
     totalPages: Math.ceil(total / limit)
   });
 }
+

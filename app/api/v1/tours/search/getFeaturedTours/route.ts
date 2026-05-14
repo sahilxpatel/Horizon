@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { json } from "@/lib/api";
 import { prisma } from "@/lib/prisma";
 
@@ -15,3 +16,4 @@ export async function GET() {
     return json({ success: false, message: "not-found", error: error.message }, 404);
   }
 }
+
