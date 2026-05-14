@@ -1,0 +1,184 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  user
+  admin
+}
+
+enum TourCategory {
+  Adventure
+  Beach
+  City
+  Cultural
+  Family
+  Hiking
+  Luxury
+  Nature
+  Religious
+  Safari
+  Wildlife
+  Weekend
+}
+
+enum Difficulty {
+  Easy
+  Moderate
+  Challenging
+  Difficult
+}
+
+enum PaymentStatus {
+  pending
+  paid
+  failed
+  refunded
+}
+
+enum NewsletterStatus {
+  subscribed
+  unsubscribed
+}
+
+model User {
+  id        String   @id @default(cuid())
+  username  String   @unique
+  email     String   @unique
+  password  String
+  photo     String?
+  role      UserRole @default(user)
+  phone     String?
+  bio       String?
+  bookings  Booking[]
+  wishlist  Wishlist?
+  savedSearches SavedSearch[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Tour {
+  id            String         @id @default(cuid())
+  title         String         @unique
+  slug          String?        @unique
+  city          String
+  address       String
+  distance      Int
+  photo         String
+  desc          String         @db.Text
+  price         Int
+  maxGroupSize  Int
+  category      TourCategory   @default(Adventure)
+  duration      Int            @default(1)
+  difficulty    Difficulty     @default(Moderate)
+  itinerary     Json?
+  inclusions    Json?
+  exclusions    Json?
+  featured      Boolean        @default(false)
+  reviews       Review[]
+  bookings      Booking[]
+  wishlistItems WishlistItem[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  @@index([category, price])
+  @@index([city])
+  @@index([distance])
+  @@index([maxGroupSize])
+}
+
+model Review {
+  id         String   @id @default(cuid())
+  tourId     String
+  tour       Tour     @relation(fields: [tourId], references: [id], onDelete: Cascade)
+  username   String
+  reviewText String   @db.Text
+  rating     Float    @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([tourId])
+}
+
+model Booking {
+  id                String        @id @default(cuid())
+  userId            String
+  user              User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userEmail         String
+  tourId            String
+  tour              Tour          @relation(fields: [tourId], references: [id], onDelete: Cascade)
+  tourName          String
+  fullName          String
+  guestSize         Int
+  phone             String
+  bookAt            DateTime
+  hasPaid           Boolean       @default(false)
+  paymentStatus     PaymentStatus @default(pending)
+  paymentIntentId   String?
+  checkoutSessionId String?       @unique
+  receiptUrl        String?
+  amount            Int           @default(0)
+  currency          String        @default("inr")
+  notes             String?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  @@index([userId, tourId, bookAt])
+}
+
+model Wishlist {
+  id        String         @id @default(cuid())
+  userId    String         @unique
+  user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items     WishlistItem[]
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+}
+
+model WishlistItem {
+  wishlistId String
+  tourId     String
+  wishlist   Wishlist @relation(fields: [wishlistId], references: [id], onDelete: Cascade)
+  tour       Tour     @relation(fields: [tourId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+
+  @@id([wishlistId, tourId])
+}
+
+model Contact {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String
+  message   String   @db.Text
+  status    String   @default("new")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Newsletter {
+  id           String           @id @default(cuid())
+  email        String           @unique
+  status       NewsletterStatus @default(subscribed)
+  subscribedAt DateTime         @default(now())
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+}
+
+model SavedSearch {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  label     String
+  params    Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId, createdAt])
+}

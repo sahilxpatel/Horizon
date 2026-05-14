@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+
+@import "../styles/theme.css";
+@import "../styles/home.css";
+@import "../styles/tour.css";
+@import "../styles/tour-details.css";
+@import "../styles/gallery.css";
+@import "../styles/dynamic-gallery.css";
+@import "../styles/advanced-search.css";
+@import "../styles/search-results.css";
+@import "../styles/login.css";
+@import "../styles/profile.css";
+@import "../styles/thank-you.css";
+@import "../styles/compare.css";
+
+@import "../shared/common-section.css";
+@import "../shared/newsletter.css";
+@import "../shared/SearchBar.css";
+@import "../shared/tour-card.css";
+
+@import "../services/service-card.css";
+
+@import "../components/Header/header.css";
+@import "../components/Footer/footer.css";
+@import "../components/Booking/booking.css";
+@import "../components/Features/whychooseus.css";
+@import "../components/pages/contact.css";
+@import "../components/pages/wishlist.css";
+
+@import "../components/Common/advanced-filters.css";
+@import "../components/Common/category-filter.css";
+@import "../components/Common/dealsbanner.css";
+@import "../components/Common/fab.css";
+@import "../components/Common/image-lightbox.css";
+@import "../components/Common/loadingscreen.css";
+@import "../components/Common/quick-view-modal.css";
+@import "../components/Common/share-buttons.css";
+@import "../components/Common/skeleton-loader.css";
+@import "../components/Common/toast.css";
+@import "../components/Common/tour-itinerary.css";
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  min-height: 100vh;
+}

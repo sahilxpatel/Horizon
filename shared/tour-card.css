@@ -1,0 +1,302 @@
+.tour__card .card {
+    border: none !important;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 25px 45px -20px rgba(11, 39, 39, 0.35);
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform, box-shadow;
+    background: #fff;
+}
+
+.tour__card .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 35px 60px -25px rgba(212, 175, 55, 0.45);
+}
+
+.tour__img {
+    position: relative;
+    overflow: hidden;
+    will-change: transform;
+    height: 220px;
+}
+
+.tour__img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform;
+}
+
+.tour__card .card:hover .tour__img img {
+    transform: scale(1.08);
+}
+
+.tour__img::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(11, 39, 39, 0) 45%, rgba(11, 39, 39, 0.65) 100%);
+    transition: opacity 0.3s ease;
+}
+
+.tour__card:hover .tour__img::after {
+    opacity: 0.8;
+}
+
+/* Enhanced Badge System */
+.tour__badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.85rem;
+    z-index: 3;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(10px);
+}
+
+.tour__badge i {
+    font-size: 1rem;
+}
+
+/* Wishlist Heart Button */
+.wishlist__btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.95);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 3;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.wishlist__btn:hover {
+    background: #fff;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.wishlist__btn i {
+    font-size: 1.3rem;
+    color: #ff4757;
+    transition: all 0.3s ease;
+}
+
+.wishlist__btn .ri-heart-line {
+    color: #666;
+}
+
+.wishlist__btn .ri-heart-fill {
+    color: #ff4757;
+}
+
+/* Hover Overlay */
+.tour__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.9) 0%, rgba(26, 31, 41, 0.9) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.tour__card:hover .tour__overlay {
+    opacity: 1;
+}
+
+.overlay__content {
+    text-align: center;
+    color: #fff;
+    transform: translateY(20px);
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.tour__card:hover .overlay__content {
+    transform: translateY(0);
+}
+
+.overlay__content .quick-view-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 0.8rem;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.overlay__content .quick-view-btn i {
+    font-size: 1.8rem;
+    color: var(--secondary-color);
+}
+
+.overlay__content .quick-view-btn:hover {
+    transform: scale(1.15);
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.3);
+}
+
+.overlay__content p {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* Old badge style - kept for compatibility */
+.tour__img span {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--heading-color);
+    padding: 0.4rem 0.75rem;
+    border-radius: 999px;
+    font-weight: 600;
+    z-index: 2;
+    font-size: 0.8rem;
+    will-change: transform;
+}
+
+.tour__img span::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+        mask-composite: exclude;
+}
+
+.card__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+}
+
+.tour__location,
+.tour__rating {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.9rem;
+    color: rgba(11, 39, 39, 0.7);
+    font-weight: 600;
+}
+
+:root[data-theme='dark'] .tour__location,
+:root[data-theme='dark'] .tour__rating,
+:root[data-theme='dark'] .tour__info span,
+:root[data-theme='dark'] .card__bottom h5 span,
+:root[data-theme='dark'] .tour__meta {
+    color: rgba(245, 247, 250, 0.82) !important;
+}
+
+:root[data-theme='dark'] .tour__info {
+    border-top-color: rgba(255, 255, 255, 0.14);
+}
+
+.tour__rating i,
+.tour__location i {
+    color: var(--primary-color);
+}
+
+.tour__title {
+    margin-top: 0.5rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.tour__title a {
+    color: var(--heading-color);
+    transition: color 0.2s ease;
+}
+
+.tour__title a:hover {
+    color: var(--primary-color);
+}
+
+.card__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+}
+
+.card__bottom h5 {
+    color: var(--heading-color);
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.card__bottom h5 span {
+    font-size: 0.85rem;
+    color: rgba(11, 39, 39, 0.6);
+    font-weight: 500;
+}
+
+/* Additional Tour Info */
+.tour__info {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid #f0f0f0;
+}
+
+.tour__info span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.9rem;
+    color: rgba(11, 39, 39, 0.7);
+    font-weight: 500;
+}
+
+.tour__info i {
+    color: var(--primary-color);
+    font-size: 1.1rem;
+}
+
+.booking__btn {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+    cursor: pointer;
+    padding: 0.45rem 1.1rem !important;
+    border-radius: 999px !important;
+    border: none !important;
+    transition: transform 0.2s ease;
+}
+
+.booking__btn:hover {
+    transform: translateY(-2px);
+}
+
+.booking__btn a {
+    text-decoration: none;
+    font-size: 0.95rem;
+    color: #fff;
+    font-weight: 600;
+}

@@ -1,0 +1,173 @@
+.share__buttons__wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.share__toggle__btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+  transition: all 0.3s ease;
+}
+
+.share__toggle__btn:hover {
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+  transform: translateY(-2px);
+}
+
+.share__toggle__btn i {
+  font-size: 1.2rem;
+}
+
+.share__buttons__container {
+  position: absolute;
+  top: calc(100% + 1rem);
+  right: 0;
+  background: #fff;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+  z-index: 100;
+  min-width: 320px;
+}
+
+.share__buttons__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.share__btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #495057;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.share__btn i {
+  font-size: 1.8rem;
+  transition: all 0.3s ease;
+}
+
+.share__btn:hover {
+  background: var(--share-color);
+  border-color: var(--share-color);
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.share__btn span {
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.copy__btn {
+  --share-color: #6c757d;
+}
+
+.copy__btn.copied {
+  --share-color: #28a745;
+  background: #28a745;
+  border-color: #28a745;
+  color: #fff;
+}
+
+/* Individual social media colors */
+.share__btn:nth-child(1) i {
+  color: #25D366;
+}
+
+.share__btn:nth-child(2) i {
+  color: #1877F2;
+}
+
+.share__btn:nth-child(3) i {
+  color: #000000;
+}
+
+.share__btn:nth-child(4) i {
+  color: #0A66C2;
+}
+
+.share__btn:nth-child(5) i {
+  color: #0088cc;
+}
+
+.share__btn:nth-child(6) i {
+  color: #6c757d;
+}
+
+.share__btn:hover i {
+  color: #fff;
+}
+
+/* Responsive Design */
+@media only screen and (max-width: 768px) {
+  .share__buttons__container {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    min-width: 280px;
+  }
+
+  .share__buttons__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+  }
+
+  .share__btn {
+    padding: 0.8rem;
+  }
+
+  .share__btn i {
+    font-size: 1.5rem;
+  }
+}
+
+/* Backdrop overlay for mobile */
+@media only screen and (max-width: 576px) {
+  .share__buttons__wrapper {
+    width: 100%;
+  }
+
+  .share__toggle__btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .share__buttons__container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: auto;
+    transform: none;
+    border-radius: 20px 20px 0 0;
+    min-width: 100%;
+    max-width: 100%;
+    box-shadow: 0 -5px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  .share__buttons__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

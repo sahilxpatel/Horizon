@@ -1,0 +1,101 @@
+const { PrismaClient } = require('@prisma/client')
+const prisma = new PrismaClient()
+
+const u = (id) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=800&q=80`
+const w = (n) => `https://commons.wikimedia.org/wiki/Special:FilePath/${n}`
+
+const toursData = [
+  { title:'Taj Mahal, Agra', city:'Uttar Pradesh', address:'Agra, Uttar Pradesh', distance:200, price:6500, maxGroupSize:12, duration:1, category:'Cultural', difficulty:'Easy', featured:true, desc:'Visit the iconic ivory-white marble mausoleum, a UNESCO World Heritage Site and one of the New Seven Wonders of the World.', photo:w('Taj_Mahal,_Agra,_India.jpg') },
+  { title:'Ajanta Caves', city:'Maharashtra', address:'Aurangabad, Maharashtra', distance:300, price:10000, maxGroupSize:10, duration:2, category:'Cultural', difficulty:'Easy', featured:true, desc:'Explore the UNESCO-listed ancient Buddhist rock-cut caves with stunning murals and sculptures.', photo:w('Ajanta_Caves_(452434892).jpg') },
+  { title:'The Golden Temple', city:'Punjab', address:'Amritsar, Punjab', distance:400, price:5000, maxGroupSize:8, duration:2, category:'Religious', difficulty:'Easy', featured:true, desc:'Visit Sri Harmandir Sahib, experience the peaceful sarovar, langar, and glowing evening ambience.', photo:w('Golden_Temple_India.jpg') },
+  { title:'Mehrangarh Fort', city:'Rajasthan', address:'Jodhpur, Rajasthan', distance:500, price:7000, maxGroupSize:8, duration:2, category:'Cultural', difficulty:'Easy', featured:true, desc:'Walk through the massive gates and royal courtyards of one of Rajasthan most dramatic hilltop forts.', photo:w('Jodhpur_mehrangarh_fort.jpg') },
+  { title:'Agra Fort', city:'Uttar Pradesh', address:'Agra, Uttar Pradesh', distance:210, price:9000, maxGroupSize:8, duration:2, category:'Cultural', difficulty:'Easy', featured:false, desc:'Discover the red sandstone palaces and Mughal history of Agra Fort near the Taj Mahal.', photo:w('Agra_Fort._India.jpg') },
+  { title:'Mysore Palace', city:'Karnataka', address:'Mysuru, Karnataka', distance:500, price:8000, maxGroupSize:8, duration:2, category:'Cultural', difficulty:'Easy', featured:false, desc:'See the grand Indo-Saracenic palace, royal halls, and beautifully lit evening facade.', photo:w('Mysore_Palace_Morning.jpg') },
+  { title:'Darjeeling Himalayan Railway', city:'West Bengal', address:'Darjeeling, West Bengal', distance:600, price:4500, maxGroupSize:8, duration:3, category:'Adventure', difficulty:'Easy', featured:false, desc:'Ride the UNESCO Toy Train and enjoy tea gardens, mountain views, and classic hill-town charm.', photo:w('Darjeeling_Himalayan_Railway.jpg') },
+  { title:'Kerala Backwaters', city:'Kerala', address:'Alappuzha, Kerala', distance:250, price:12000, maxGroupSize:6, duration:3, category:'Nature', difficulty:'Easy', featured:true, desc:'Cruise Kerala backwaters on a houseboat through palm-lined canals and lush green landscapes.', photo:w('Kerala_backwater.jpg') },
+  { title:'Goa Beach Paradise', city:'Goa', address:'Goa', distance:180, price:8500, maxGroupSize:10, duration:3, category:'Beach', difficulty:'Easy', featured:true, desc:'Relax on Goa beaches, explore Portuguese heritage, and enjoy sunshine, food, music, and coastal fun.', photo:w('Goa_beach.JPG') },
+  { title:'Jaipur Pink City Tour', city:'Rajasthan', address:'Jaipur, Rajasthan', distance:320, price:9500, maxGroupSize:12, duration:3, category:'Cultural', difficulty:'Easy', featured:true, desc:'Explore royal palaces, Amber Fort, City Palace, and the beautiful Hawa Mahal facade.', photo:w('Hawa_Mahal_-_Jaipur.jpg') },
+  { title:'Banaras Ganga Aarti', city:'Uttar Pradesh', address:'Varanasi, Uttar Pradesh', distance:420, price:7500, maxGroupSize:8, duration:2, category:'Religious', difficulty:'Easy', featured:true, desc:'Experience sunrise boat rides, old lanes, temples, ghats, and the unforgettable evening Ganga Aarti.', photo:w('Ganges_River_Varanasi.jpg') },
+  { title:'Rishikesh Adventure Retreat', city:'Uttarakhand', address:'Rishikesh, Uttarakhand', distance:280, price:11000, maxGroupSize:15, duration:3, category:'Adventure', difficulty:'Moderate', featured:true, desc:'Enjoy Ganga views, yoga, river rafting, ashrams, and Himalayan foothill scenery.', photo:w("Rishikesh's_ganga.jpg") },
+  { title:'Dwarka Temple Trail', city:'Gujarat', address:'Dwarka, Gujarat', distance:360, price:8200, maxGroupSize:10, duration:2, category:'Religious', difficulty:'Easy', featured:false, desc:'Visit Dwarkadhish Temple, Gomti Ghat, coastal shrines, and sacred sites linked with Krishna traditions.', photo:w('Dwarkadhish_Temple,_Dwarka,_Gujarat.JPG') },
+  { title:'Somnath Jyotirlinga', city:'Gujarat', address:'Somnath, Gujarat', distance:330, price:7800, maxGroupSize:10, duration:2, category:'Religious', difficulty:'Easy', featured:false, desc:'Visit the Somnath Temple by the Arabian Sea, one of India most important Jyotirlinga shrines.', photo:w('Somnath_Temple,_Somnath.jpg') },
+  { title:'White Rann of Kutch', city:'Gujarat', address:'Kutch, Gujarat', distance:450, price:13500, maxGroupSize:12, duration:3, category:'Nature', difficulty:'Easy', featured:true, desc:'See the surreal white salt desert, local crafts, folk music, desert sunsets, and Rann Utsav atmosphere.', photo:w('White_Rann_of_Kutch.jpg') },
+  { title:'Bali Rice Terrace Escape', city:'Bali', address:'Ubud, Bali, Indonesia', distance:5200, price:42000, maxGroupSize:8, duration:5, category:'Nature', difficulty:'Easy', featured:true, desc:'Explore Bali rice terraces, temples, waterfalls, beach clubs, and relaxed island culture.', photo:w('Rice_terraces,_Bali.jpg') },
+  { title:'Vietnam Ha Long Bay Cruise', city:'Vietnam', address:'Ha Long Bay, Vietnam', distance:6200, price:46000, maxGroupSize:10, duration:6, category:'Nature', difficulty:'Easy', featured:true, desc:'Cruise through Ha Long Bay limestone islands, caves, floating villages, and calm emerald waters.', photo:w('Ha_Long_bay.jpg') },
+  { title:'Switzerland Alpine Dream', city:'Switzerland', address:'Zermatt, Switzerland', distance:7000, price:98000, maxGroupSize:8, duration:7, category:'Adventure', difficulty:'Difficult', featured:true, desc:'Experience alpine lakes, scenic trains, mountain villages, and iconic Matterhorn views.', photo:w('Matterhorn_from_Domhütte_-_2.jpg') },
+  { title:'Santorini Island Getaway', city:'Greece', address:'Oia, Santorini, Greece', distance:6000, price:95000, maxGroupSize:10, duration:5, category:'Beach', difficulty:'Easy', featured:true, desc:'Experience stunning sunsets, white-washed houses, and crystal-clear Aegean waters.', photo:u('1533105079780-92b9be482077') },
+  { title:'Kyoto Temple & Culture Tour', city:'Japan', address:'Fushimi Inari, Kyoto, Japan', distance:7500, price:85000, maxGroupSize:12, duration:6, category:'Cultural', difficulty:'Easy', featured:true, desc:'Immerse in Japanese culture with guided tours of historic temples, bamboo forests, and tea ceremonies.', photo:u('1493976040374-85c8e12f0c0e') },
+  { title:'Serengeti Safari Adventure', city:'Tanzania', address:'Serengeti National Park, Tanzania', distance:6500, price:210000, maxGroupSize:6, duration:10, category:'Wildlife', difficulty:'Moderate', featured:true, desc:'Witness the Great Migration and spot the Big Five on this unforgettable African safari.', photo:u('1516426122078-c23e76319801') },
+  { title:'Aurora Borealis Iceland', city:'Iceland', address:'Thingvellir, Reykjavik, Iceland', distance:6500, price:140000, maxGroupSize:10, duration:4, category:'Nature', difficulty:'Moderate', featured:true, desc:'Chase the Northern Lights across Iceland glaciers, geysers, and hot springs.', photo:u('1520769945061-0a448c463865') },
+  { title:'Rome History Discovery', city:'Italy', address:'The Colosseum, Rome, Italy', distance:6000, price:75000, maxGroupSize:15, duration:3, category:'Cultural', difficulty:'Easy', featured:true, desc:'Walk the Colosseum, explore the Roman Forum, and enjoy authentic Italian cuisine.', photo:u('1552832230-c0197dd311b5') },
+  { title:'Maldives Overwater Retreat', city:'Maldives', address:'North Male Atoll, Maldives', distance:5500, price:320000, maxGroupSize:2, duration:8, category:'Luxury', difficulty:'Easy', featured:true, desc:'Stay in an overwater bungalow, snorkel vibrant coral reefs, and relax on pristine private beaches.', photo:u('1514282401047-d79a71a590e8') },
+  { title:'Machu Picchu Inca Trek', city:'Peru', address:'Inca Trail, Cusco, Peru', distance:15000, price:110000, maxGroupSize:8, duration:5, category:'Adventure', difficulty:'Difficult', featured:true, desc:'Hike the legendary Inca Trail to the majestic ruins of Machu Picchu.', photo:u('1587595431973-160d0d94add1') },
+  { title:'Manali Snow Adventure', city:'Himachal Pradesh', address:'Manali, Himachal Pradesh', distance:550, price:14000, maxGroupSize:10, duration:5, category:'Adventure', difficulty:'Moderate', featured:true, desc:'Enjoy snowfields, Rohtang Pass, paragliding, river crossings, and scenic Kullu Valley.', photo:u('1506905925346-21bda4d32df4') },
+  { title:'Leh Ladakh Expedition', city:'Ladakh', address:'Leh, Ladakh', distance:700, price:22000, maxGroupSize:8, duration:7, category:'Adventure', difficulty:'Challenging', featured:true, desc:'Explore Pangong Lake, mountain monasteries, high-altitude passes, and barren Himalayan landscapes.', photo:u('1558618666-fcd25c85cd64') },
+  { title:'Coorg Coffee Plantation', city:'Karnataka', address:'Coorg, Karnataka', distance:240, price:9000, maxGroupSize:8, duration:3, category:'Nature', difficulty:'Easy', featured:false, desc:'Walk lush coffee estates, visit Abbey Falls, explore tribal culture, and enjoy misty hill views.', photo:u('1447933601656-10658a26d94e') },
+  { title:'Hampi Ruins Explorer', city:'Karnataka', address:'Hampi, Karnataka', distance:340, price:7500, maxGroupSize:10, duration:2, category:'Cultural', difficulty:'Easy', featured:false, desc:'Discover the vast ruins of the Vijayanagara Empire, boulder landscapes, temples, and ancient bazaars.', photo:u('1582510003544-346f2af5ac77') },
+  { title:'Andaman Islands Escape', city:'Andaman', address:'Port Blair, Andaman Islands', distance:1400, price:28000, maxGroupSize:10, duration:6, category:'Beach', difficulty:'Easy', featured:true, desc:'Explore Radhanagar Beach, Cellular Jail, coral reefs, and crystal-clear Indian Ocean waters.', photo:u('1505118380757-91f5f5632de0') },
+  { title:'Spiti Valley Odyssey', city:'Himachal Pradesh', address:'Spiti, Himachal Pradesh', distance:650, price:18000, maxGroupSize:8, duration:7, category:'Adventure', difficulty:'Challenging', featured:false, desc:'Journey through remote high-altitude villages, ancient monasteries, and stark Himalayan valleys.', photo:u('1519501025264-65ba15a82390') },
+  { title:'Ooty Nilgiri Hills', city:'Tamil Nadu', address:'Ooty, Tamil Nadu', distance:290, price:7000, maxGroupSize:10, duration:3, category:'Nature', difficulty:'Easy', featured:false, desc:'Ride the Nilgiri Mountain Railway, walk tea gardens, and enjoy the cool Queen of Hills weather.', photo:u('1464822759023-fed622ff2c3b') },
+  { title:'Sundarbans Mangrove Tour', city:'West Bengal', address:'Sundarbans, West Bengal', distance:110, price:11000, maxGroupSize:8, duration:3, category:'Wildlife', difficulty:'Moderate', featured:false, desc:'Boat through the world largest mangrove delta and spot Royal Bengal Tigers and river dolphins.', photo:u('1547036967-23d11aacaee0') },
+  { title:'Ranthambore Tiger Safari', city:'Rajasthan', address:'Ranthambore National Park', distance:380, price:16000, maxGroupSize:6, duration:3, category:'Safari', difficulty:'Easy', featured:false, desc:'Track the Royal Bengal Tiger through ancient ruins and dry deciduous forests at Ranthambore.', photo:u('1516026672322-375933b6b4ef') },
+  { title:'Puri Jagannath Pilgrimage', city:'Odisha', address:'Puri, Odisha', distance:500, price:8000, maxGroupSize:12, duration:3, category:'Religious', difficulty:'Easy', featured:false, desc:'Visit the sacred Jagannath Temple, Puri beach, Konark Sun Temple, and explore Odishan heritage.', photo:u('1612898016801-9f94b7c60f38') },
+  { title:'Kaziranga Rhino Safari', city:'Assam', address:'Kaziranga National Park, Assam', distance:720, price:17000, maxGroupSize:6, duration:3, category:'Safari', difficulty:'Easy', featured:false, desc:'Spot one-horned rhinos, elephants, and tigers in this UNESCO World Heritage Site.', photo:u('1605200523369-3e1ca07d4741') },
+  { title:'Valley of Flowers Trek', city:'Uttarakhand', address:'Chamoli, Uttarakhand', distance:480, price:14000, maxGroupSize:10, duration:6, category:'Hiking', difficulty:'Challenging', featured:true, desc:'Trek through the breathtaking UNESCO valley bursting with alpine flowers against Himalayan glaciers.', photo:u('1506905925346-21bda4d32df4') },
+  { title:'Udaipur Lake City Tour', city:'Rajasthan', address:'Udaipur, Rajasthan', distance:580, price:9500, maxGroupSize:10, duration:3, category:'Cultural', difficulty:'Easy', featured:true, desc:'Explore the City of Lakes, Lake Pichola, City Palace, and romantic heritage hotels of Udaipur.', photo:u('1548013016-0c9afe23c5c4') },
+  { title:'Mumbai City & Coast', city:'Maharashtra', address:'Mumbai, Maharashtra', distance:0, price:6000, maxGroupSize:15, duration:2, category:'City', difficulty:'Easy', featured:false, desc:'Explore Gateway of India, Marine Drive, Dharavi, Bollywood studios, and street food culture.', photo:u('1529253355930-ddbe423a2ac7') },
+  { title:'Jaisalmer Desert Camp', city:'Rajasthan', address:'Jaisalmer, Rajasthan', distance:650, price:12000, maxGroupSize:12, duration:3, category:'Adventure', difficulty:'Easy', featured:true, desc:'Stay in luxury desert tents, ride camels on sand dunes, watch folk performances, and see a golden sunrise.', photo:u('1524492412937-b28074a5d7da') },
+  { title:'Khajuraho Temple Circuit', city:'Madhya Pradesh', address:'Khajuraho, Madhya Pradesh', distance:450, price:8500, maxGroupSize:10, duration:2, category:'Cultural', difficulty:'Easy', featured:false, desc:'Explore the UNESCO-listed medieval temples with intricate carvings and forest backdrops.', photo:u('1583395838144-4e8b99b2c4ac') },
+  { title:'Munnar Tea Garden Trail', city:'Kerala', address:'Munnar, Kerala', distance:280, price:10000, maxGroupSize:8, duration:3, category:'Nature', difficulty:'Easy', featured:false, desc:'Walk through rolling tea gardens, visit tea factories, waterfalls, and spot Nilgiri Tahr.', photo:u('1447933601656-10658a26d94e') },
+  { title:'Pushkar Holy Town', city:'Rajasthan', address:'Pushkar, Rajasthan', distance:400, price:7000, maxGroupSize:10, duration:2, category:'Religious', difficulty:'Easy', featured:false, desc:'Visit the sacred Pushkar Lake, Brahma Temple, and experience the legendary Pushkar Camel Fair.', photo:u('1612898016801-9f94b7c60f38') },
+  { title:'Bangkok City Explorer', city:'Thailand', address:'Bangkok, Thailand', distance:4200, price:52000, maxGroupSize:10, duration:5, category:'City', difficulty:'Easy', featured:true, desc:'Visit Grand Palace, Wat Pho, floating markets, street food lanes, and vibrant nightlife of Bangkok.', photo:u('1508009603885-50cf7c579365') },
+  { title:'Singapore City Break', city:'Singapore', address:'Singapore', distance:4100, price:75000, maxGroupSize:12, duration:4, category:'City', difficulty:'Easy', featured:true, desc:'Explore Gardens by the Bay, Marina Bay Sands, Sentosa Island, Chinatown, and hawker centres.', photo:u('1525625293386-0f484ee2a8cf') },
+  { title:'Dubai Luxury Experience', city:'UAE', address:'Dubai, UAE', distance:3300, price:120000, maxGroupSize:10, duration:5, category:'Luxury', difficulty:'Easy', featured:true, desc:'Visit Burj Khalifa, desert safari, Palm Jumeirah, Dubai Mall, and experience world-class luxury.', photo:u('1512453979798-5ea266f8880c') },
+  { title:'Phuket Beach Holiday', city:'Thailand', address:'Phuket, Thailand', distance:4500, price:48000, maxGroupSize:10, duration:5, category:'Beach', difficulty:'Easy', featured:false, desc:'Relax on Patong and Kata beaches, island-hop by speedboat, and enjoy Thai cuisine and sunsets.', photo:u('1589394815804-964ed0be2eb5') },
+  { title:'Nepal Everest Base Camp', city:'Nepal', address:'Lukla, Khumbu, Nepal', distance:1300, price:65000, maxGroupSize:10, duration:14, category:'Hiking', difficulty:'Difficult', featured:true, desc:'Trek through Sherpa villages and rhododendron forests to reach Everest Base Camp at 5364m.', photo:u('1464822759023-fed622ff2c3b') },
+  { title:'Paris Romance Tour', city:'France', address:'Paris, France', distance:7000, price:110000, maxGroupSize:8, duration:5, category:'Luxury', difficulty:'Easy', featured:true, desc:'Explore the Eiffel Tower, Louvre, Champs-Elysees, Seine river cruise, and French cuisine.', photo:u('1502602898657-3e91760cbb34') },
+  { title:'New Zealand Fjord Adventure', city:'New Zealand', address:'Milford Sound, New Zealand', distance:11000, price:145000, maxGroupSize:8, duration:8, category:'Adventure', difficulty:'Challenging', featured:true, desc:'Kayak Milford Sound fjords, hike Tongariro Crossing, and explore Maori culture.', photo:u('1469521669194-babb45599def') },
+  { title:'Bhutan Happiness Tour', city:'Bhutan', address:'Thimphu, Bhutan', distance:1100, price:55000, maxGroupSize:8, duration:7, category:'Cultural', difficulty:'Moderate', featured:true, desc:'Trek to Tiger Nest Monastery, explore dzongs, rice-terrace villages, and experience Bhutanese culture.', photo:u('1533130061792-64b345e4a6ad') },
+  { title:'Sri Lanka Heritage & Beach', city:'Sri Lanka', address:'Sigiriya, Sri Lanka', distance:2200, price:38000, maxGroupSize:10, duration:6, category:'Cultural', difficulty:'Easy', featured:false, desc:'Climb Sigiriya Rock Fortress, visit Anuradhapura, surf Mirissa beach, and spot blue whales.', photo:u('1559494007-9f5867926d8f') },
+  { title:'Himachal Family Adventure', city:'Himachal Pradesh', address:'Shimla-Manali, Himachal Pradesh', distance:500, price:15000, maxGroupSize:15, duration:5, category:'Family', difficulty:'Easy', featured:false, desc:'Enjoy toy train rides to Shimla, apple orchard walks, snow tubing, and family mountain activities.', photo:u('1506905925346-21bda4d32df4') },
+  { title:'Goa Family Funfest', city:'Goa', address:'Candolim, Goa', distance:180, price:12000, maxGroupSize:15, duration:4, category:'Family', difficulty:'Easy', featured:false, desc:'Family-friendly beaches, water sports, dolphin watching cruises, and Old Goa heritage church tours.', photo:u('1520454974749-a8bb0cf2df3e') },
+  { title:'Rajasthan Royal Weekend', city:'Rajasthan', address:'Jaipur-Jodhpur, Rajasthan', distance:280, price:18000, maxGroupSize:12, duration:3, category:'Weekend', difficulty:'Easy', featured:false, desc:'A weekend packed with Amber Fort elephant rides, desert village lunches, and heritage hotel stays.', photo:u('1524492412937-b28074a5d7da') },
+  { title:'Coorg Weekend Getaway', city:'Karnataka', address:'Coorg, Karnataka', distance:250, price:8000, maxGroupSize:8, duration:2, category:'Weekend', difficulty:'Easy', featured:false, desc:'A quick hill escape with waterfall hikes, estate walks, campfire nights, and fresh coffee.', photo:u('1447933601656-10658a26d94e') },
+]
+
+async function main() {
+  console.log('Start seeding...')
+  // Clear existing tours first
+  await prisma.review.deleteMany()
+  await prisma.wishlistItem.deleteMany()
+  await prisma.booking.deleteMany()
+  await prisma.tour.deleteMany()
+
+  const usedSlugs = new Set()
+  for (const t of toursData) {
+    let slug = t.title
+      .toString()
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/\p{Diacritic}/gu, "")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)+/g, "")
+      .substring(0, 60);
+    
+    let baseSlug = slug;
+    let suffix = 1;
+    while (usedSlugs.has(slug)) {
+      slug = `${baseSlug}-${suffix}`;
+      suffix++;
+    }
+    usedSlugs.add(slug);
+
+    const tour = await prisma.tour.create({ data: { ...t, slug } })
+    console.log(`Created: ${tour.title} [${tour.id}]`)
+  }
+  console.log(`Seeding finished. ${toursData.length} tours created.`)
+}
+
+main()
+  .then(async () => { await prisma.$disconnect() })
+  .catch(async (e) => { console.error(e); await prisma.$disconnect(); process.exit(1) })
