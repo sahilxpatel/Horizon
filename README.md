@@ -3,7 +3,11 @@
   <img src="https://github.com/Dhruv110903/Horizon/assets/93207042/5aad5484-44c8-4c0f-867a-e93a5aef2632" width="280" alt="Horizon logo" />
 </p>
 
-Horizon is a premium, full-stack **Next.js 14** application that helps travellers discover curated tours and complete secure bookings in minutes. The platform ships with a Stripe-powered checkout flow, rich documentation, and a resilient authentication experience.
+Horizon is a premium, full-stack **Next.js 14** application that helps travellers discover curated tours and complete secure bookings in minutes.
+
+**[🌐 Live Demo](https://horizon-two-pi.vercel.app/)**
+
+The platform ships with a Stripe-powered checkout flow, rich documentation, and a resilient authentication experience.
 
 ---
 
