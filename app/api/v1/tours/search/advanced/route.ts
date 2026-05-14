@@ -66,7 +66,7 @@ export async function GET(req: NextRequest) {
     where.featured = featured;
   }
 
-  if (category && category !== "all") {
+  if (category && category.toLowerCase() !== "all") {
     where.category = category;
   }
 
@@ -108,23 +108,20 @@ export async function GET(req: NextRequest) {
 
     const resolvedLimit = limit ?? sortedTours.length;
     const startIndex = page * resolvedLimit;
-    const paginated = sortedTours.slice(startIndex, startIndex + resolvedLimit);
+    const paginatedTours = sortedTours.slice(startIndex, startIndex + resolvedLimit);
 
     return json({
       success: true,
-      message: "Successful",
-      count: sortedTours.length,
-      data: paginated,
-      page,
-      limit: resolvedLimit,
+      count: paginatedTours.length,
       total: sortedTours.length,
-      totalPages: Math.ceil(sortedTours.length / resolvedLimit)
+      data: paginatedTours
     });
-  } catch (error) {
-    console.error(error);
-    return json({ success: false, message: "Failed to fetch tours" }, 500);
+  } catch (error: any) {
+    console.error("Advanced search error:", error);
+    return json({ 
+      success: false, 
+      message: "Failed to fetch tours",
+      error: process.env.NODE_ENV === "development" ? error.message : undefined
+    }, 500);
   }
 }
-
-
-
