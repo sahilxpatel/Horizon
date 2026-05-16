@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState, useContext } from 'react'
+import Image from 'next/image'
 import { Container, Row, Col, Form, ListGroup, Button } from 'reactstrap'
 import { useParams } from 'next/navigation'
 
@@ -120,7 +121,7 @@ const TourDetails = () => {
       .then(res => setRecommendations(res.data.data || []))
       .catch(()=>{})
       .finally(()=> { setRecLoading(false); setRecInit(true); });
-  }, [tour?.id, tour?._id]);
+  }, [tour]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -158,7 +159,7 @@ const TourDetails = () => {
               <Col lg='8'>
                 <div className="tour__content">
                   <div className="tour__image-wrapper" onClick={() => openLightbox(galleryImages, 0)}>
-                    <img src={getImageSrc(photo)} alt={title} className="tour__main-image" />
+                    <Image src={getImageSrc(photo)} alt={title} width={800} height={500} className="tour__main-image" priority />
                     <div className="image__overlay">
                       <i className="ri-gallery-line"></i>
                       <span>View Gallery</span>
@@ -243,9 +244,9 @@ const TourDetails = () => {
                     </Form>
                     <ListGroup className="user__reviews">
                       {
-                        reviews?.map(review => (
-                          <div className="review__item">
-                            <img src={getImageSrc(avatar, '/logo192.png')} alt="" />
+                        reviews?.map((review, index) => (
+                          <div className="review__item" key={review.id || review._id || index}>
+                            <Image src={getImageSrc(avatar, '/logo192.png')} width={50} height={50} className="rounded-circle" alt="User avatar" />
                             <div className="w-100">
                               <div className="d-flex align-items-center justify-content-between">
                                 <div>
@@ -284,7 +285,7 @@ const TourDetails = () => {
                       <div className='d-flex flex-wrap gap-3'>
                         {recommendations.map(r => (
                           <div style={{ flex: '1 0 220px', maxWidth: '240px' }} key={r.id || r._id}>
-                            <img src={getImageSrc(r.photo)} alt={r.title} style={{ width: '100%', borderRadius: '8px', objectFit: 'cover', height: '140px' }} />
+                            <Image src={getImageSrc(r.photo)} alt={r.title} width={240} height={140} style={{ borderRadius: '8px', objectFit: 'cover' }} />
                             <p className='mb-0 fw-semibold small mt-2'>{r.title}</p>
                             <span className='text-muted small'>{r.city}</span>
                           </div>

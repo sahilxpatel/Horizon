@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useContext, useMemo } from 'react'
+import Image from 'next/image'
 import { Container, Row, Col, Form, FormGroup, Button, Alert } from 'reactstrap';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -114,7 +115,7 @@ const Register = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
-                <img src={getImageSrc(registerImg)} alt='Join our community' />
+                <Image src={getImageSrc(registerImg)} alt='Join our community' width={400} height={400} priority />
                 <div className="login__img__overlay">
                   <motion.h3
                     initial={{ opacity: 0 }}
@@ -145,7 +146,7 @@ const Register = () => {
                   animate={{ scale: 1, rotate: 0 }}
                   transition={{ type: "spring", duration: 0.8, delay: 0.4 }}
                 >
-                  <img src={getImageSrc(userIcon)} alt="User" />
+                  <Image src={getImageSrc(userIcon)} alt="User" width={80} height={80} />
                 </motion.div>
 
                 <h2>Create Account</h2>
@@ -283,7 +284,7 @@ const Register = () => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                       >
-                        <i className="ri-close-circle-line"></i> Passwords don't match
+                        <i className="ri-close-circle-line"></i> Passwords don&apos;t match
                       </motion.span>
                     )}
                     {credentials.confirmPassword && credentials.password === credentials.confirmPassword && (

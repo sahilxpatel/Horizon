@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect } from 'react'
+import Image from 'next/image'
 import {Container, Row, Col} from 'reactstrap'
 import { motion } from 'framer-motion'
 import heroImg from "../../assets/images/hero-img01.jpg"
@@ -151,7 +152,7 @@ const Home = () => {
                   variants={imageVariants}
                   whileHover={{ scale: 1.02 }}
                 >
-                  <img src={getImageSrc(heroImg)} alt="Sunset mountain" />
+                  <Image src={getImageSrc(heroImg)} alt="Sunset mountain" width={600} height={400} priority />
                 </motion.div>
                 <motion.div 
                   className='hero__visual-card'
@@ -159,7 +160,7 @@ const Home = () => {
                   transition={{ delay: 0.2 }}
                   whileHover={{ scale: 1.05, rotate: 2 }}
                 >
-                  <img src={getImageSrc(heroImg02)} alt="Campfire" />
+                  <Image src={getImageSrc(heroImg02)} alt="Campfire" width={300} height={400} />
                 </motion.div>
                 <motion.div 
                   className='hero__visual-video'
@@ -338,7 +339,7 @@ const Home = () => {
                     transition={{ duration: 0.6 }}
                     whileHover={{ scale: 1.02 }}
                   >
-                    <img src={getImageSrc(experienceImg)} alt="" />
+                    <Image src={getImageSrc(experienceImg)} alt="Experience" width={600} height={450} />
                   </motion.div>
                 </Col>
               </Row>
@@ -409,7 +410,7 @@ const Home = () => {
                     viewport={{ once: true }}
                     transition={{ duration: 0.5 }}
                   >
-                    Customer's Love
+                    Customer&apos;s Love
                   </motion.h5>
                   <motion.h2 
                     className="testimonial__title"
@@ -418,7 +419,7 @@ const Home = () => {
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: 0.1 }}
                   >
-                    What our Customer's say about us?
+                    What our Customer&apos;s say about us?
                   </motion.h2>
                 </Col>
                 <Col lg='12'>

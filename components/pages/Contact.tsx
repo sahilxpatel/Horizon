@@ -73,7 +73,7 @@ const Contact = () => {
                 <i className="ri-mail-send-line"></i> Get In Touch
               </h1>
               <p className="contact__subtitle">
-                Have a question or want to book a tour? We'd love to hear from you!
+                Have a question or want to book a tour? We&apos;d love to hear from you!
               </p>
             </motion.div>
           </Col>

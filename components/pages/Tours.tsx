@@ -297,7 +297,7 @@ const Tours = () => {
                   <i className="ri-compass-3-line" style={{ fontSize: '5rem', color: '#667eea', opacity: 0.5 }}></i>
                 </motion.div>
                 <h4 className="mt-3">No tours found</h4>
-                <p className="text-muted">We couldn't find any tours matching your filters.</p>
+                <p className="text-muted">We couldn&apos;t find any tours matching your filters.</p>
                 <div className="mt-4">
                   <Button 
                     color="primary" 

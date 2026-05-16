@@ -3,6 +3,7 @@
 import React from 'react'
 import { Container, Row , Col, ListGroup , ListGroupItem } from 'reactstrap'
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 // import logo from '../../assets/images/logo.png'
 import logo from '../../assets/images/horizon.png'
@@ -81,7 +82,7 @@ const Footer = () => {
             >
               <motion.div whileHover={{ scale: 1.05 }}>
                 <Link href='/' aria-label='Horizon home'>
-                  <img src={getImageSrc(logo, '/logo192.png')} alt='Horizon logo' />
+                  <Image src={getImageSrc(logo, '/logo192.png')} alt='Horizon logo' width={150} height={45} />
                 </Link>
               </motion.div>
               <p>

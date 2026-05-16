@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useContext } from 'react'
+import Image from 'next/image'
 import { Container, Row, Col, Form, FormGroup, Button, Alert } from 'reactstrap';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -85,7 +86,7 @@ const Login = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
-                <img src={getImageSrc(loginImg)} alt='Travel the world' />
+                <Image src={getImageSrc(loginImg)} alt='Travel the world' width={400} height={400} priority />
                 <div className="login__img__overlay">
                   <motion.h3
                     initial={{ opacity: 0 }}
@@ -116,7 +117,7 @@ const Login = () => {
                   animate={{ scale: 1, rotate: 0 }}
                   transition={{ type: "spring", duration: 0.8, delay: 0.4 }}
                 >
-                  <img src={getImageSrc(userIcon)} alt="User" />
+                  <Image src={getImageSrc(userIcon)} alt="User" width={80} height={80} />
                 </motion.div>
 
                 <h2>Login</h2>
@@ -229,7 +230,7 @@ const Login = () => {
                 </div>
 
                 <p className="switch__auth">
-                  Don't have an account?{' '}
+                  Don&apos;t have an account?{' '}
                   <Link href='/register'>Create one now!</Link>
                 </p>
               </motion.div>

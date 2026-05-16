@@ -89,7 +89,7 @@ const WhyChooseUs = () => {
                 Experience Excellence in <span className="highlight">Every Journey</span>
               </h2>
               <p className="section__description">
-                We're committed to making your travel dreams come true with unmatched service and care
+                We&apos;re committed to making your travel dreams come true with unmatched service and care
               </p>
             </motion.div>
           </Col>

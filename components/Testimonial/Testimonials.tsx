@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react'
+import Image from 'next/image'
 import Slider from 'react-slick'
 import ava01 from '../../assets/images/ava-1.jpg'
 import ava02 from '../../assets/images/ava-2.jpg'
@@ -41,14 +42,14 @@ const Testimonials = () => {
     return (
         <Slider {...settings}>
             <div className="testimonial py-4 px-3">
-                <p>Planning our dream getaway was a breeze, thanks to Horizon's website!
-                     It wasn't just a trip; it was an unforgettable odyssey. 
+                <p>Planning our dream getaway was a breeze, thanks to Horizon&apos;s website!
+                     It wasn&apos;t just a trip; it was an unforgettable odyssey. 
                      From the comprehensive guidance on the Dodecanese Greek Islands
                       to the seamless booking process, every click felt like a step 
                       closer to paradise.</p>
 
                 <div className="d-flex align-items-center gap-4 mt-3">
-                    <img src={getImageSrc(ava01)} className="w-25 h-25 rounded-2" alt="" />
+                    <Image src={getImageSrc(ava01)} width={50} height={50} className="rounded-circle" alt="Rahul Gupta" />
                     <div >
                         <h6 className='mb-0 mt-3'>Rahul Gupta</h6>
 
@@ -56,14 +57,14 @@ const Testimonials = () => {
                 </div>
             </div>
             <div className="testimonial py-4 px-3">
-                <p>Our dream getaway planning became a delight, all thanks to Horizon's
+                <p>Our dream getaway planning became a delight, all thanks to Horizon&apos;s
                      website! It evolved into an unforgettable
-                      odyssey. The comprehensive insights into the Mumbai's beach and the effortless booking process made
+                      odyssey. The comprehensive insights into the Mumbai&apos;s beach and the effortless booking process made
                        us feel like we were inching
                         closer to paradise with every click.</p>
 
                 <div className="d-flex align-items-center gap-4 mt-3">
-                    <img src={getImageSrc(ava02)} className="w-25 h-25 rounded-2" alt="" />
+                    <Image src={getImageSrc(ava02)} width={50} height={50} className="rounded-circle" alt="Priya Mishra" />
                     <div >
                         <h6 className='mb-0 mt-3'>Priya Mishra</h6>
 
@@ -71,13 +72,13 @@ const Testimonials = () => {
                 </div>
             </div>
             <div className="testimonial py-4 px-3">
-            <p>Planning our dream getaway was a breeze, thanks to Horizon's website!
-                     It wasn't just a trip; it was an unforgettable odyssey. 
+            <p>Planning our dream getaway was a breeze, thanks to Horizon&apos;s website!
+                     It wasn&apos;t just a trip; it was an unforgettable odyssey. 
                      From the comprehensive guidance on the Dodecanese Greek Islands
                       to the seamless booking process, every click felt like a step 
                       closer to paradise.</p>
                 <div className="d-flex align-items-center gap-4 mt-3">
-                    <img src={getImageSrc(ava03)} className="w-25 h-25 rounded-2" alt="" />
+                    <Image src={getImageSrc(ava03)} width={50} height={50} className="rounded-circle" alt="Aryan Sharma" />
                     <div >
                         <h6 className='mb-0 mt-3'>Aryan Sharma</h6>
 
@@ -85,14 +86,14 @@ const Testimonials = () => {
                 </div>
             </div>
             <div className="testimonial py-4 px-3">
-            <p>Our dream getaway planning became a delight, all thanks to Horizon's
+            <p>Our dream getaway planning became a delight, all thanks to Horizon&apos;s
                      website! It evolved into an unforgettable
-                      odyssey. The comprehensive insights into the Mumbai's beach and the effortless booking process made
+                      odyssey. The comprehensive insights into the Mumbai&apos;s beach and the effortless booking process made
                        us feel like we were inching
                         closer to paradise with every click.</p>
 
                 <div className="d-flex align-items-center gap-4 mt-3">
-                    <img src={getImageSrc(ava02)} className="w-25 h-25 rounded-2" alt="" />
+                    <Image src={getImageSrc(ava02)} width={50} height={50} className="rounded-circle" alt="Pooja Bhat" />
                     <div >
                         <h6 className='mb-0 mt-3'>Pooja Bhat</h6>
 

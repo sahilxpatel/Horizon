@@ -53,7 +53,7 @@ const SearchResultList = () => {
   const currentParams = useMemo(() => Object.fromEntries(searchParams.entries()), [searchParams]);
   const canSaveSearch = Object.keys(currentParams).length > 0;
 
-  const fetchFromQuery = async () => {
+  const fetchFromQuery = React.useCallback(async () => {
     if (!searchParams.toString()) {
       return;
     }
@@ -82,11 +82,11 @@ const SearchResultList = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [searchParams]);
 
   useEffect(() => {
     fetchFromQuery();
-  }, [searchParams]);
+  }, [fetchFromQuery]);
 
   useEffect(() => {
     const loadSaved = async () => {

@@ -4,6 +4,7 @@ import React, { useRef, useEffect, useContext, useState } from 'react'
 // import { Container, Row, Button, ButtonDropdown } from 'reactstrap'
 import { Container, Row, Button } from 'reactstrap'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 // import logo from '../../assets/images/logo.png'
@@ -100,7 +101,7 @@ const Header = () => {
               whileTap={{ scale: 0.95 }}
             >
               <Link href='/' onClick={closeMenu} aria-label='Horizon home'>
-                <img src={typeof logo === 'string' ? logo : logo?.src || '/logo.png'} alt='Horizon logo' />
+                <Image src={typeof logo === 'string' ? logo : logo?.src || '/logo.png'} alt='Horizon logo' width={150} height={45} priority />
               </Link>
             </motion.div>
 
