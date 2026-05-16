@@ -17,6 +17,7 @@ The platform ships with a Stripe-powered checkout flow, rich documentation, and 
 - **Secure Authentication**: JWT-based session management with secure storage.
 - **Tour Discovery**: Advanced server-side filters, star ratings, and media galleries.
 - **Stripe Integration**: Automated booking creation with payment status dashboard and receipt links.
+- **Database Management**: Robust data handling and schema management using **Prisma ORM**.
 - **Responsive UI**: Modern, state-of-the-art components built on Reactstrap and Framer Motion.
 
 ### Advanced Features ⭐
