@@ -2,7 +2,21 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-const useFetch = (url, options = {}) => {
+interface FetchOptions extends RequestInit {
+    immediate?: boolean;
+    initialData?: any;
+}
+
+interface UseFetchReturn {
+    data: any;
+    error: any;
+    loading: boolean;
+    refetch: (overrideUrl?: string, overrideInit?: RequestInit) => Promise<void>;
+    setData: React.Dispatch<React.SetStateAction<any>>;
+    result: any;
+}
+
+const useFetch = (url: string, options: FetchOptions = {}): UseFetchReturn => {
     const {
         immediate = true,
         initialData = [],
@@ -12,7 +26,7 @@ const useFetch = (url, options = {}) => {
     const [data, setData] = useState(initialData)
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(Boolean(immediate && url))
-    const abortRef = useRef(null)
+    const abortRef = useRef<AbortController | null>(null)
     const requestInitRef = useRef(requestInit)
     const [result, setResult] = useState(null)
 
@@ -20,7 +34,7 @@ const useFetch = (url, options = {}) => {
         requestInitRef.current = requestInit
     }, [requestInit])
 
-    const fetchData = useCallback(async (overrideUrl, overrideInit) => {
+    const fetchData = useCallback(async (overrideUrl?: string, overrideInit?: RequestInit) => {
         const targetUrl = overrideUrl || url
         if (!targetUrl) return
 
@@ -50,7 +64,7 @@ const useFetch = (url, options = {}) => {
             setResult(raw)
             const payload = raw?.data ?? raw
             setData(payload)
-        } catch (err) {
+        } catch (err: any) {
             if (err?.name === 'AbortError') return
             setError(err?.message || 'Failed to fetch')
         } finally {

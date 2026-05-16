@@ -189,7 +189,7 @@ const Register = () => {
                       value={credentials.username}
                       onChange={handleChange}
                       className="modern-input"
-                      minLength="3"
+                      minLength={3}
                     />
                   </FormGroup>
 
@@ -221,7 +221,7 @@ const Register = () => {
                         value={credentials.password}
                         onChange={handleChange}
                         className="modern-input"
-                        minLength="6"
+                        minLength={6}
                       />
                       <button
                         type="button"

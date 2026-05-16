@@ -2,7 +2,17 @@
 
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
-const ComparisonContext = createContext({
+interface ComparisonContextValue {
+  items: any[];
+  add: (tour: any) => void;
+  remove: (id: any) => void;
+  toggle: (tour: any) => void;
+  clear: () => void;
+  isSelected: (id: any) => boolean;
+  max: number;
+}
+
+const ComparisonContext = createContext<ComparisonContextValue>({
   items: [],
   add: () => {},
   remove: () => {},

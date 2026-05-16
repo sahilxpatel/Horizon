@@ -39,7 +39,7 @@ const TourDetails = () => {
 
   const { totalRating, avgRating } = calculateAvgRating(reviews);
 
-  const options = { day: "numeric", month: "long", year: "numeric" };
+  const options: Intl.DateTimeFormatOptions = { day: "numeric", month: "long", year: "numeric" };
 
   // Prepare gallery images (for demo, using the same photo multiple times)
   const galleryImages = photo ? [getImageSrc(photo), getImageSrc(photo), getImageSrc(photo)] : [];

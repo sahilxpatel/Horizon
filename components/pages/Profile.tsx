@@ -286,7 +286,7 @@ const Profile = () => {
                                 onChange={handleInputChange}
                                 disabled={!editMode}
                                 className="profile__input"
-                                rows="4"
+                                rows={4}
                                 placeholder="Tell us about yourself"
                               />
                             </FormGroup>

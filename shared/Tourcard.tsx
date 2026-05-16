@@ -10,7 +10,12 @@ import LazyImage from '../components/Common/LazyImage'
 import { useComparison } from '../context/ComparisonContext'
 import QuickViewModal from '../components/Common/QuickViewModal'
 
-const TourCard = ({ tour, compact }) => {
+interface TourCardProps {
+  tour: any;
+  compact?: boolean;
+}
+
+const TourCard: React.FC<TourCardProps> = ({ tour, compact = false }) => {
   const { id, _id, title, city, photo, price, featured, reviews, maxGroupSize, category, duration } = tour;
   const tourId = id || _id;
   const { totalRating, avgRating } = calculateAvgRating(reviews);

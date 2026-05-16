@@ -26,14 +26,30 @@ const readStoredAuth = () => {
 
 const storedAuth = readStoredAuth();
 
-const initial_state = {
+interface AuthState {
+    user: any;
+    token: string | null;
+    loading: boolean;
+    error: any;
+}
+
+interface AuthContextValue extends AuthState {
+    dispatch: React.Dispatch<any>;
+    logout: () => void;
+}
+
+const initial_state: AuthState = {
     user: storedAuth.user,
-        token: storedAuth.token,
-        loading: false,
-        error: null,
-    };
-  
-    export const AuthContext = createContext(initial_state);
+    token: storedAuth.token,
+    loading: false,
+    error: null,
+};
+
+export const AuthContext = createContext<AuthContextValue>({
+    ...initial_state,
+    dispatch: () => null,
+    logout: () => null,
+});
 
 
 const AuthReducer = (state, action) => {

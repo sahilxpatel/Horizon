@@ -83,7 +83,7 @@ const ShareButtons = ({ url, title, description }) => {
               <motion.button
                 key={link.name}
                 className="share__btn"
-                style={{ '--share-color': link.color }}
+                style={{ '--share-color': link.color } as React.CSSProperties}
                 onClick={() => handleShare(link.url)}
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
