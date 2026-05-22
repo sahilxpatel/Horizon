@@ -44,9 +44,11 @@ const FloatingActionButton = () => {
     },
     {
       icon: 'ri-customer-service-2-line',
-      label: 'Live Chat',
+      label: 'AI Assistant',
       color: '#FF9800',
-      action: () => alert('Live chat feature coming soon!')
+      action: () => {
+        window.dispatchEvent(new CustomEvent('horizon:open-chat'))
+      }
     }
   ]
 

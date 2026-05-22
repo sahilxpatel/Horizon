@@ -26,37 +26,43 @@ The platform ships with a Stripe-powered checkout flow, rich documentation, and 
 - Dedicated wishlist page for managing saved adventures.
 - Real-time synchronization with the database.
 
-#### 2. Tour Categories System 🏷️
+#### 2. AI Travel Chatbot 🤖
+- Floating assistant available on every page through the existing layout shell.
+- Powered by a server-side Groq integration with no API key exposed to the browser.
+- Helps users discover tours, compare options, understand pricing, and get booking guidance.
+- Includes quick suggestions, conversation memory, loading states, retry support, and guest-mode fallback.
+
+#### 3. Tour Categories System 🏷️
 - **12+ Categories**: Adventure, Beach, City, Cultural, Family, Hiking, Luxury, Nature, Religious, Safari, Wildlife, Weekend.
 - Beautiful horizontal filter with unique icons and smooth animations.
 - Intelligent server-side filtering across 50+ tours.
 
-#### 3. Detailed Tour Itinerary 📅
+#### 4. Detailed Tour Itinerary 📅
 - Day-by-day breakdown with timeline display.
 - Activities, meals, and accommodation information.
 - What's included/excluded sections for clear expectations.
 
-#### 4. Newsletter Subscription 📧
+#### 5. Newsletter Subscription 📧
 - Email validation and duplicate prevention.
 - Seamless integration for community building.
 
-#### 5. Social Media Sharing 📱
+#### 6. Social Media Sharing 📱
 - Share on WhatsApp, Facebook, Twitter, LinkedIn, Telegram.
 - One-click copy link for quick distribution.
 
-#### 6. Contact Us Page 📞
+#### 7. Contact Us Page 📞
 - Professional contact form with validation and feedback.
 - Social media links and contact information display.
 
-#### 7. Dark/Light Theme System 🌓
+#### 8. Dark/Light Theme System 🌓
 - CSS variable-driven theming with persistence.
 - Automatic detection of system preferences (`prefers-color-scheme`).
 
-#### 8. Tour Comparison 🔄
+#### 9. Tour Comparison 🔄
 - Compare up to 3 tours side-by-side.
 - Detailed comparison of price, category, duration, and capacity.
 
-#### 9. Advanced Discovery Engine
+#### 10. Advanced Discovery Engine
 - **Infinite Scroll**: Smoothly browse the entire tour inventory.
 - **Smart Sorting**: Sort by price (asc/desc), duration, or newest destinations.
 
@@ -103,6 +109,10 @@ STRIPE_WEBHOOK_SECRET="whsec_..."
 STRIPE_CURRENCY="inr"
 STRIPE_SERVICE_FEE="200"
 
+# Groq chatbot
+GROQ_API_KEY="your-groq-api-key"
+GROQ_MODEL="llama-3.1-8b-instant"
+
 # Application URL
 NEXT_PUBLIC_API_URL="/api/v1"
 ```
@@ -119,6 +129,56 @@ npm run prisma:seed
 npm run dev
 ```
 Browse to [http://localhost:3000](http://localhost:3000) to begin exploring!
+
+---
+
+## 🤖 Chatbot Setup
+
+The Horizon chatbot is mounted globally and appears on every page as a floating assistant. It uses a secure Next.js API route at `/api/v1/chat` and calls Groq from the server only, so the API key never reaches the browser.
+
+### Environment
+Add these values to your local environment file:
+```env
+GROQ_API_KEY="your-groq-api-key"
+GROQ_MODEL="llama-3.1-8b-instant"
+```
+
+### What It Does
+- Recommends tours based on budget, trip length, and travel style.
+- Explains booking, pricing, and support flow for Horizon.
+- Supports quick prompts, typing states, retry, and saved conversation history.
+- Falls back gracefully if the model is unavailable or rate limited.
+
+### Implementation Notes
+- Backend service layer: [lib/ai/groq.ts](lib/ai/groq.ts)
+- API route: [app/api/v1/chat/route.ts](app/api/v1/chat/route.ts)
+- Global widget: [components/Common/ChatWidget.tsx](components/Common/ChatWidget.tsx)
+
+### API Example
+Request:
+```bash
+POST /api/v1/chat
+Content-Type: application/json
+
+{
+  "messages": [
+    { "role": "user", "content": "Suggest one family-friendly tour under INR 10000." }
+  ]
+}
+```
+
+Response:
+```json
+{
+  "success": true,
+  "message": "Chat response generated",
+  "reply": "...",
+  "data": {
+    "reply": "...",
+    "model": "llama-3.1-8b-instant"
+  }
+}
+```
 
 ---
 

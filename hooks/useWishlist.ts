@@ -4,6 +4,7 @@ import { useState, useEffect, useContext, useCallback, useRef } from 'react';
 import { AuthContext } from '../context/AuthContext';
 
 import { BASE_URL } from '../utils/config';
+import { buildAuthHeaders, hasClientAuthToken } from '../utils/auth';
 
 type WishlistItem = {
   id?: string;
@@ -71,8 +72,9 @@ const clearGuestWishlist = () => {
 export const useWishlist = () => {
   const [wishlist, setWishlist] = useState<WishlistItem[]>([]);
   const [wishlistIds, setWishlistIds] = useState<Set<string>>(new Set());
-  const { user } = useContext(AuthContext);
+  const { user, token, dispatch } = useContext(AuthContext);
   const syncRef = useRef(false);
+  const hasServerAuth = hasClientAuthToken() && Boolean(token);
 
   const loadGuestWishlist = useCallback(() => {
     const items = readGuestWishlist();
@@ -80,8 +82,14 @@ export const useWishlist = () => {
     setWishlistIds(new Set(items.map((tour) => tour.id).filter(Boolean) as string[]));
   }, []);
 
+  const handleServerAuthFailure = useCallback(() => {
+    dispatch({ type: 'LOGOUT' });
+    syncRef.current = false;
+    loadGuestWishlist();
+  }, [dispatch, loadGuestWishlist]);
+
   const fetchWishlist = useCallback(async () => {
-    if (!user) {
+    if (!hasServerAuth) {
       loadGuestWishlist();
       return;
     }
@@ -89,8 +97,14 @@ export const useWishlist = () => {
     try {
       const res = await fetch(`${BASE_URL}/wishlist`, {
         method: 'GET',
+        headers: buildAuthHeaders(),
         credentials: 'include',
       });
+
+      if (res.status === 401) {
+        handleServerAuthFailure();
+        return;
+      }
 
       const result = await res.json();
       if (result.success) {
@@ -101,24 +115,30 @@ export const useWishlist = () => {
     } catch (err) {
       console.error('Error fetching wishlist:', err);
     }
-  }, [loadGuestWishlist, user]);
+  }, [handleServerAuthFailure, hasServerAuth, loadGuestWishlist, token]);
 
   const addToWishlistServer = useCallback(async (tourId: string) => {
     const res = await fetch(`${BASE_URL}/wishlist`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        ...buildAuthHeaders({ 'Content-Type': 'application/json' }),
       },
       credentials: 'include',
       body: JSON.stringify({ tourId }),
     });
+
+    if (res.status === 401) {
+      handleServerAuthFailure();
+      return { success: false, message: 'Authentication expired' };
+    }
+
     return res.json();
-  }, []);
+  }, [handleServerAuthFailure, token]);
 
   const addToWishlist = async (tourId: string, tourData?: WishlistItem | null) => {
     if (!tourId) return false;
 
-    if (!user) {
+    if (!hasServerAuth) {
       const item = normalizeGuestTour(tourData || null, tourId);
       if (!item) return false;
       const existing = readGuestWishlist();
@@ -147,7 +167,7 @@ export const useWishlist = () => {
   const removeFromWishlist = async (tourId: string) => {
     if (!tourId) return false;
 
-    if (!user) {
+    if (!hasServerAuth) {
       const existing = readGuestWishlist();
       const next = existing.filter((tour) => tour.id !== tourId);
       writeGuestWishlist(next);
@@ -159,8 +179,14 @@ export const useWishlist = () => {
     try {
       const res = await fetch(`${BASE_URL}/wishlist/${tourId}`, {
         method: 'DELETE',
+        headers: buildAuthHeaders(),
         credentials: 'include',
       });
+
+      if (res.status === 401) {
+        handleServerAuthFailure();
+        return false;
+      }
 
       const result = await res.json();
       if (result.success) {
@@ -217,7 +243,7 @@ export const useWishlist = () => {
         clearGuestWishlist();
         fetchWishlist();
       });
-  }, [fetchWishlist, loadGuestWishlist, user, addToWishlistServer]);
+  }, [addToWishlistServer, fetchWishlist, hasServerAuth, loadGuestWishlist]);
 
   return {
     wishlist,

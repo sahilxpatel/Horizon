@@ -5,6 +5,7 @@ import Header from './../Header/Header'
 import Footer from './../Footer/Footer'
 import FloatingActionButton from '../Common/FloatingActionButton'
 import ComparisonBar from '../Comparison/ComparisonBar'
+import ChatWidget from '../Common/ChatWidget'
 
 const Layout = ({ children }) => {
   return (
@@ -17,6 +18,7 @@ const Layout = ({ children }) => {
   <Footer />
   <ComparisonBar />
      <FloatingActionButton />
+     <ChatWidget />
     </>
   )
 }

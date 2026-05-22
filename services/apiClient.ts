@@ -2,6 +2,7 @@
 
 import axios from "axios";
 import { BASE_URL } from "../utils/config";
+import { getClientAuthToken } from "../utils/auth";
 
 const apiClient = axios.create({
   baseURL: BASE_URL,
@@ -9,10 +10,7 @@ const apiClient = axios.create({
 });
 
 apiClient.interceptors.request.use((config) => {
-  const token =
-    typeof window !== "undefined"
-      ? window.localStorage.getItem("horizon_token")
-      : null;
+  const token = getClientAuthToken();
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
