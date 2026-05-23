@@ -5,7 +5,7 @@
 
 Horizon is a premium, full-stack **Next.js 14** application that helps travellers discover curated tours and complete secure bookings in minutes.
 
-**[🌐 Live Demo](https://horizon-two-pi.vercel.app/)**
+**[🌐 Live Demo] - https://horizon-two-pi.vercel.app/**
 
 The platform ships with a Stripe-powered checkout flow, rich documentation, and a resilient authentication experience.
 
